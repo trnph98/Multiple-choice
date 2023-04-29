@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="STOREModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tb_Cart">
+    <Key>
+      <PropertyRef Name="CartId" />
+    </Key>
+    <Property Name="CartId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Agency" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Payment_Method" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TotalPrice" Type="Int32" />
+    <NavigationProperty Name="tb_CartDt" Relationship="Self.FK__tb_CartDt__CartI__48CFD27E" FromRole="tb_Cart" ToRole="tb_CartDt" />
+  </EntityType>
+  <EntityType Name="tb_CartDt">
+    <Key>
+      <PropertyRef Name="CartId" />
+      <PropertyRef Name="GoodId" />
+    </Key>
+    <Property Name="CartId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="GoodId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Created_Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tb_Cart" Relationship="Self.FK__tb_CartDt__CartI__48CFD27E" FromRole="tb_CartDt" ToRole="tb_Cart" />
+    <NavigationProperty Name="tb_Goods" Relationship="Self.FK__tb_CartDt__GoodI__49C3F6B7" FromRole="tb_CartDt" ToRole="tb_Goods" />
+  </EntityType>
+  <EntityType Name="tb_Goods">
+    <Key>
+      <PropertyRef Name="GoodId" />
+    </Key>
+    <Property Name="GoodId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Unit" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Int32" />
+    <Property Name="Describe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Supplier" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tb_CartDt" Relationship="Self.FK__tb_CartDt__GoodI__49C3F6B7" FromRole="tb_Goods" ToRole="tb_CartDt" />
+    <NavigationProperty Name="tb_ReceiptDt" Relationship="Self.FK__tb_Receip__GoodI__4F7CD00D" FromRole="tb_Goods" ToRole="tb_ReceiptDt" />
+  </EntityType>
+  <EntityType Name="tb_Receipt">
+    <Key>
+      <PropertyRef Name="ReceiptId" />
+    </Key>
+    <Property Name="ReceiptId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TotalPrice" Type="Int32" />
+    <NavigationProperty Name="tb_ReceiptDt" Relationship="Self.FK__tb_Receip__Recei__4E88ABD4" FromRole="tb_Receipt" ToRole="tb_ReceiptDt" />
+  </EntityType>
+  <EntityType Name="tb_ReceiptDt">
+    <Key>
+      <PropertyRef Name="ReceiptId" />
+      <PropertyRef Name="GoodId" />
+    </Key>
+    <Property Name="ReceiptId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="GoodId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Amount" Type="Int32" />
+    <Property Name="Created_Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="tb_Goods" Relationship="Self.FK__tb_Receip__GoodI__4F7CD00D" FromRole="tb_ReceiptDt" ToRole="tb_Goods" />
+    <NavigationProperty Name="tb_Receipt" Relationship="Self.FK__tb_Receip__Recei__4E88ABD4" FromRole="tb_ReceiptDt" ToRole="tb_Receipt" />
+  </EntityType>
+  <Association Name="FK__tb_CartDt__CartI__48CFD27E">
+    <End Role="tb_Cart" Type="Self.tb_Cart" Multiplicity="1" />
+    <End Role="tb_CartDt" Type="Self.tb_CartDt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Cart">
+        <PropertyRef Name="CartId" />
+      </Principal>
+      <Dependent Role="tb_CartDt">
+        <PropertyRef Name="CartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tb_CartDt__GoodI__49C3F6B7">
+    <End Role="tb_Goods" Type="Self.tb_Goods" Multiplicity="1" />
+    <End Role="tb_CartDt" Type="Self.tb_CartDt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Goods">
+        <PropertyRef Name="GoodId" />
+      </Principal>
+      <Dependent Role="tb_CartDt">
+        <PropertyRef Name="GoodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tb_Receip__GoodI__4F7CD00D">
+    <End Role="tb_Goods" Type="Self.tb_Goods" Multiplicity="1" />
+    <End Role="tb_ReceiptDt" Type="Self.tb_ReceiptDt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Goods">
+        <PropertyRef Name="GoodId" />
+      </Principal>
+      <Dependent Role="tb_ReceiptDt">
+        <PropertyRef Name="GoodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tb_Receip__Recei__4E88ABD4">
+    <End Role="tb_Receipt" Type="Self.tb_Receipt" Multiplicity="1" />
+    <End Role="tb_ReceiptDt" Type="Self.tb_ReceiptDt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tb_Receipt">
+        <PropertyRef Name="ReceiptId" />
+      </Principal>
+      <Dependent Role="tb_ReceiptDt">
+        <PropertyRef Name="ReceiptId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="STOREEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tb_Cart" EntityType="Self.tb_Cart" />
+    <EntitySet Name="tb_CartDt" EntityType="Self.tb_CartDt" />
+    <EntitySet Name="tb_Goods" EntityType="Self.tb_Goods" />
+    <EntitySet Name="tb_Receipt" EntityType="Self.tb_Receipt" />
+    <EntitySet Name="tb_ReceiptDt" EntityType="Self.tb_ReceiptDt" />
+    <AssociationSet Name="FK__tb_CartDt__CartI__48CFD27E" Association="Self.FK__tb_CartDt__CartI__48CFD27E">
+      <End Role="tb_Cart" EntitySet="tb_Cart" />
+      <End Role="tb_CartDt" EntitySet="tb_CartDt" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tb_CartDt__GoodI__49C3F6B7" Association="Self.FK__tb_CartDt__GoodI__49C3F6B7">
+      <End Role="tb_Goods" EntitySet="tb_Goods" />
+      <End Role="tb_CartDt" EntitySet="tb_CartDt" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tb_Receip__GoodI__4F7CD00D" Association="Self.FK__tb_Receip__GoodI__4F7CD00D">
+      <End Role="tb_Goods" EntitySet="tb_Goods" />
+      <End Role="tb_ReceiptDt" EntitySet="tb_ReceiptDt" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tb_Receip__Recei__4E88ABD4" Association="Self.FK__tb_Receip__Recei__4E88ABD4">
+      <End Role="tb_Receipt" EntitySet="tb_Receipt" />
+      <End Role="tb_ReceiptDt" EntitySet="tb_ReceiptDt" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
